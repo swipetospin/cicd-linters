@@ -1,6 +1,6 @@
-name: SpinCar Linter
+name: SpinCar Auto-Linter
 author: SpinCar LLC
-description: Run a variety of linters and annotate a PR
+description: Run a variety of linters and annotates a PR
 inputs:
   linter:
     description: Which linter to run
