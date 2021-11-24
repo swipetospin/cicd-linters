@@ -1,0 +1,5 @@
+cfn-lint
+flake8
+flake8-docstrings
+flake8-json
+requests

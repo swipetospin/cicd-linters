@@ -1,0 +1,15 @@
+name: SpinCar Auto-Linter
+author: SpinCar LLC
+description: Run a variety of linters and annotates a PR
+inputs:
+  linter:
+    description: Which linter to run
+    required: true
+    default: ""
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+branding:
+  icon: "terminal"
+  color: "white"
