@@ -5,6 +5,7 @@ LABEL "com.github.actions.description"="GitHub Action to lint and annotate pull 
 LABEL "com.github.actions.icon"="thumbs-up"
 LABEL "com.github.actions.color"="green"
 
+RUN apt-get update -y; exit 0
 RUN apt-get install -y git jq curl
 RUN pip install --upgrade pip
 COPY requirements.txt /requirements.txt
