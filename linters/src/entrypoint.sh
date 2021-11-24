@@ -1,25 +1,20 @@
 #!/bin/bash
 
-set -e  # if a command fails, exit
-set -o pipefail  # if any command in a pipe fails, exit
+set -e -o pipefail  # if a command or a command in a pipe fails, exit
 set -u  # treat unset variables as error
 set -x  # print all debug information
 
 if [[ -z "$GITHUB_TOKEN" ]]; then  # This is populated by our secret from the Workflow file.
-	echo "Set the GITHUB_TOKEN env variable."
+	echo "Set the GITHUB_TOKEN envvar."
 	exit 1
 fi
 if [[ -z "$INPUT_LINTER" ]]; then  # This is a required input.
-	echo "Pass an argument with the name of the linter you're trying to run."
+	echo "Set the INPUT_LINTER envvar with the name of the linter you're trying to run."
 	exit 1
 fi
 
 echo "Linter $INPUT_LINTER has been selected"
 
-BASE_COMMIT=$(jq --raw-output .pull_request.base.sha "$GITHUB_EVENT_PATH")
-if [ "$BASE_COMMIT" == null ]; then  # If this is not a pull request action it can be a check suite re-requested.
-  BASE_COMMIT=$(jq --raw-output .check_suite.pull_requests[0].base.sha "$GITHUB_EVENT_PATH")
-fi
 ACTION=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 # First 2 actions are for pull requests, last 2 are for check suites.
 ENABLED_ACTIONS="synchronize opened requested rerequested"
@@ -27,6 +22,11 @@ ENABLED_ACTIONS="synchronize opened requested rerequested"
 if [[ $ENABLED_ACTIONS != *"$ACTION"* ]]; then
   echo -e "Not interested in this event: $ACTION.\nExiting..."
   exit
+fi
+
+BASE_COMMIT=$(jq --raw-output .pull_request.base.sha "$GITHUB_EVENT_PATH")
+if [[ "$BASE_COMMIT" == null ]]; then  # If this is not a pull request action it can be a check suite re-requested.
+  BASE_COMMIT=$(jq --raw-output .check_suite.pull_requests[0].base.sha "$GITHUB_EVENT_PATH")
 fi
 
 if [[ "$INPUT_LINTER" == "flake8" ]]; then
