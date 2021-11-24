@@ -32,9 +32,8 @@ fi
 if [[ "$INPUT_LINTER" == "flake8" ]]; then
 	# Get files added or modified wrt base commit, filter for Python files, and replace new lines with space.
 	pyfiles=$(git diff --name-only --diff-filter=AM "$BASE_COMMIT" | grep '\.py$' | tr '\n' ' ')
-	echo "Python files in branch: $pyfiles"
 	if [[ ! -z $pyfiles ]]; then
-		echo "Running flake8 against Python files"
+		echo "Running flake8 against Python files: $pyfiles"
 		flake8 \
 			--format=json \
 			--max-line-length 120 \
@@ -46,9 +45,8 @@ if [[ "$INPUT_LINTER" == "flake8" ]]; then
 elif [[ "$INPUT_LINTER" == "cfn-lint" ]]; then
 	# Get files added or modified wrt base commit, filter for CloudFormation files, and replace new lines with space.
 	cfnfiles=$(git diff --name-only --diff-filter=AM "$BASE_COMMIT" | grep 'template.yaml$' | tr '\n' ' ')
-	echo "CloudFormation files in branch: $cfnfiles"
 	if [[ ! -z $cfnfiles ]]; then
-		echo "Running cfn-lint against CloudFormation templates"
+		echo "Running cfn-lint against CloudFormation templates: $cfnfiles"
 		cfn-lint \
 			-f json \
 			--output-file cfnlint_output.json \
