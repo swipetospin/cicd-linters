@@ -34,6 +34,9 @@ if [[ "$INPUT_LINTER" == "flake8" ]]; then
 	pyfiles=$(git diff --name-only --diff-filter=AM "$BASE_COMMIT" | grep '\.py$' | tr '\n' ' ')
 	if [[ ! -z $pyfiles ]]; then
 		echo "Running flake8 against Python files: $pyfiles"
+
+		# Document ignore codes here:
+		# 	E402 - Some scripts (deploy scripts in particular) lazy-load modules.
 		flake8 \
 			--format=json \
 			--max-line-length 120 \
