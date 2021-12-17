@@ -22,7 +22,7 @@ class CfnLintAnnotator(Annotator):
                 eline=error['Location']['End']['LineNumber'],
                 scol=error['Location']['Start']['ColumnNumber'],
                 ecol=error['Location']['End']['ColumnNumber'],
-                message='{}\n{}'.format(error["Message"], str(error["Rule"])),
+                message=f'[{str(error["Rule"])}] {error["Message"]}',
             )
 
 

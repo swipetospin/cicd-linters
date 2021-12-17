@@ -51,9 +51,17 @@ elif [[ "$INPUT_LINTER" == "cfn-lint" ]]; then
 	if [[ ! -z $cfnfiles ]]; then
 		echo "Running cfn-lint against CloudFormation templates: $cfnfiles"
 		cfn-lint \
-			-f json \
+			--format json \
 			--output-file cfnlint_output.json \
 			$cfnfiles || true
 		python /src/cfn_lint_annotator.py
+	fi
+elif [[ "$INPUT_LINTER" == "jshint" ]]; then
+	# Get files added or modified wrt base commit, filter for Javascript files, and replace new lines with space.
+	jsfiles=$(git diff --name-only --diff-filter=AM "$BASE_COMMIT" | grep '\.js$' | tr '\n' ' ')
+	if [[ ! -z $jsfiles ]]; then
+		echo "Running cfn-lint against Javascript files: $jsfiles"
+		jshint --reporter /usr/lib/node_modules/jshint-json/json.js $jsfiles | jq '.' > jshint_output.json || true
+		python /src/jshint_annotator.py
 	fi
 fi

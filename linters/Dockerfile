@@ -7,6 +7,13 @@ LABEL "com.github.actions.color"="green"
 
 RUN apt-get update -y; exit 0
 RUN apt-get install -y git jq curl
+RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
+RUN apt-get install -y nodejs
+
+RUN npm install -g npm
+RUN npm root -g
+RUN npm install -g jshint jshint-json
+
 RUN pip install --upgrade pip
 COPY requirements.txt /requirements.txt
 RUN pip install --no-cache -r /requirements.txt

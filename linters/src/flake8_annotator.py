@@ -25,7 +25,7 @@ class Flake8Annotator(Annotator):
                     eline=error['line_number'],
                     scol=error['column_number'],
                     ecol=error['column_number'],
-                    message=f'{error["text"]} ({error["code"]})',
+                    message=f'[{error["code"]}] {error["text"]}',
                 )
 
 
