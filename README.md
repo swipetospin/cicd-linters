@@ -6,13 +6,14 @@ A collection of GitHub Actions used for CI/CD.
 
 ## linters
 
-A collection of linters.
+A collection of code linters.
 
 ### Available linters
 
 The following linters are available:
   * cfn-lint
   * flake8
+  * jshint
 
 To use a linter, specify a job step with the `linter` input, like this
 
