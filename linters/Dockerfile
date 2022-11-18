@@ -7,7 +7,7 @@ LABEL "com.github.actions.color"="green"
 
 RUN apt-get update -y; exit 0
 RUN apt-get install -y git jq curl
-RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 
 RUN npm install -g npm@9.1.1
