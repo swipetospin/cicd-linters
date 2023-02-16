@@ -29,6 +29,11 @@ if [[ "$BASE_COMMIT" == null ]]; then  # If this is not a pull request action it
   BASE_COMMIT=$(jq --raw-output .check_suite.pull_requests[0].base.sha "$GITHUB_EVENT_PATH")
 fi
 
+# Our Github actions are hosted in a separate repo from the ones that the actions run.
+# Git introduced a security measure for that and since we're the owner of both repos, we decided to disable it.
+# See https://impel.atlassian.net/browse/PID-51 for more.”
+git config --global --add safe.directory /github/workspace
+
 if [[ "$INPUT_LINTER" == "flake8" ]]; then
 	# Get files added or modified wrt base commit, filter for Python files, and replace new lines with space.
 	pyfiles=$(git diff --name-only --diff-filter=AM "$BASE_COMMIT" | grep '\.py$' | tr '\n' ' ')
