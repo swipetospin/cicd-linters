@@ -29,7 +29,7 @@ if [[ "$BASE_COMMIT" == null ]]; then  # If this is not a pull request action it
   BASE_COMMIT=$(jq --raw-output .check_suite.pull_requests[0].base.sha "$GITHUB_EVENT_PATH")
 fi
 
-git config --global -add safe.directory /github/workspace
+git config --global --add safe.directory /github/workspace
 
 if [[ "$INPUT_LINTER" == "flake8" ]]; then
 	# Get files added or modified wrt base commit, filter for Python files, and replace new lines with space.
